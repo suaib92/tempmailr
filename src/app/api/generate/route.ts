@@ -91,19 +91,20 @@ export async function POST() {
     console.log("✅ Mailbox created successfully");
     return NextResponse.json({ address, token }, { headers: CORS_HEADERS });
   } catch (error) {
-    console.error("❌ FULL ERROR DETAILS:", {
-      message: getErrorMessage(error),
-      stack: (error as Error).stack,
-      runtime: process.env.NEXT_RUNTIME,
-      env: {
-        MAILTM_API: !!process.env.MAILTM_API,
-        MAILTM_FALLBACK_DOMAINS: !!process.env.MAILTM_FALLBACK_DOMAINS,
-      },
-    });
+  console.error("❌ FULL ERROR DETAILS:", {
+    message: getErrorMessage(error),
+    stack: (error as Error).stack,
+    runtime: process.env.NEXT_RUNTIME,
+    env: {
+      MAILTM_API: !!process.env.MAILTM_API,
+      MAILTM_FALLBACK_DOMAINS: !!process.env.MAILTM_FALLBACK_DOMAINS,
+    },
+    errorObject: JSON.stringify(error, Object.getOwnPropertyNames(error))
+  });
 
-    return NextResponse.json(
-      { error: "Failed to generate mailbox" },
-      { status: 500, headers: CORS_HEADERS }
-    );
-  }
+  return NextResponse.json(
+    { error: "Failed to generate mailbox", details: getErrorMessage(error) },
+    { status: 500, headers: CORS_HEADERS }
+  );
+}
 }
