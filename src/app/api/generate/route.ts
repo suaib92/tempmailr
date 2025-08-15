@@ -2,10 +2,23 @@
 import { NextResponse } from "next/server";
 import { createAccount, getDomains, login, randomLocalPart } from "@/lib/mailtm";
 
+// Optional: lightweight helper types (adjust if your lib already exports types)
+type MailTmDomain = { domain: string };
+type MailTmDomainList = { ["hydra:member"]?: MailTmDomain[] };
+
+function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return String(err);
+  }
+}
+
 export async function POST() {
   try {
     // 1) Pick a domain
-    const domains = await getDomains();
+    const domains = (await getDomains()) as MailTmDomainList;
     const domain = domains["hydra:member"]?.[0]?.domain;
     if (!domain) {
       return NextResponse.json({ error: "No domains available" }, { status: 500 });
@@ -23,9 +36,9 @@ export async function POST() {
     const { token } = await login(address, password);
 
     return NextResponse.json({ address, token });
-  } catch (e: any) {
+  } catch (e: unknown) {
     return NextResponse.json(
-      { error: "Failed to generate mailbox", details: String(e?.message || e) },
+      { error: "Failed to generate mailbox", details: getErrorMessage(e) },
       { status: 500 }
     );
   }

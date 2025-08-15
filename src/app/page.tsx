@@ -1,12 +1,10 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  FiChevronDown,
   FiX,
   FiRefreshCw,
-  FiCopy,
   FiMail,
   FiInbox,
   FiClock,
@@ -39,39 +37,6 @@ function srOnly(label: string) {
     <span className="sr-only" aria-hidden>
       {label}
     </span>
-  );
-}
-
-function CopyButton({
-  text,
-  label = "Copy to clipboard",
-}: {
-  text: string;
-  label?: string;
-}) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(text);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        } catch (_) {
-          // no-op
-        }
-      }}
-      aria-label={label}
-      className="ml-2 text-xs px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center"
-    >
-      {copied ? (
-        "Copied!"
-      ) : (
-        <>
-          <FiCopy className="mr-1" /> Copy
-        </>
-      )}
-    </button>
   );
 }
 
@@ -108,37 +73,37 @@ export default function HomePage() {
       const data = await res.json();
       setEmail(data.address);
       setToken(data.token);
-    } catch (e: any) {
+    } catch (e) {
       console.error(e);
-      setError(e?.message || "Failed to generate email");
+      setError(e instanceof Error ? e.message : "Failed to generate email");
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchMessages = async () => {
-    if (!token) return;
-    try {
-      setFetching(true);
-      const res = await fetch(
-        `/api/messages?token=${encodeURIComponent(token)}`,
-        {
-          cache: "no-store",
-        }
-      );
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        console.error("Fetch messages failed:", err);
-        return;
+const fetchMessages = useCallback(async () => {
+  if (!token) return;
+  try {
+    setFetching(true);
+    const res = await fetch(
+      `/api/messages?token=${encodeURIComponent(token)}`,
+      {
+        cache: "no-store",
       }
-      const data = await res.json();
-      setMessages(data["hydra:member"] || []);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setFetching(false);
+    );
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.error("Fetch messages failed:", err);
+      return;
     }
-  };
+    const data = await res.json();
+    setMessages(data["hydra:member"] || []);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    setFetching(false);
+  }
+}, [token]);
 
   const openMessage = async (id: string) => {
     try {
@@ -170,7 +135,7 @@ export default function HomePage() {
     fetchMessages();
     const t = setInterval(fetchMessages, 10000);
     return () => clearInterval(t);
-  }, [token]);
+  }, [token,fetchMessages]);
 
   const sortedMessages = useMemo(() => {
     return [...messages].sort((a, b) => {
