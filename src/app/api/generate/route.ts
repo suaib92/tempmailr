@@ -6,7 +6,7 @@ export const runtime = "nodejs"; // Changed from "nodejs"
 export const dynamic = "force-dynamic";
 
 const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://www.temp-mailr.com",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST,OPTIONS,GET",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };

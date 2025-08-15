@@ -7,7 +7,7 @@ module.exports = {
         headers: [
           { 
             key: 'Access-Control-Allow-Origin', 
-            value: 'https://www.temp-mailr.com' 
+            value: '*' // Changed to allow all origins
           },
           { 
             key: 'Access-Control-Allow-Methods', 
@@ -21,7 +21,6 @@ module.exports = {
       },
     ];
   },
-  // Add this if you're using Vercel
   experimental: {
     serverActions: true,
   },
