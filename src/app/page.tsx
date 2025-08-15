@@ -63,6 +63,7 @@ export default function HomePage() {
 
   const generateEmail = async () => {
     try {
+      debugger
       setLoading(true);
       setError(null);
       const res = await fetch("/api/generate", { method: "POST" });
