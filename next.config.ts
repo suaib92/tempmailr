@@ -1,12 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable CORS for API routes
+  // Production-only CORS settings (more secure than '*')
   async headers() {
     return [
       {
-        source: "/api/:path*", // Apply to all API routes
+        source: "/api/:path*",
         headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" }, // Allow all origins (adjust in production)
+          { 
+            key: "Access-Control-Allow-Origin", 
+            value: process.env.NODE_ENV === 'development' 
+              ? '*' 
+              : 'https://www.temp-mailr.com' 
+          },
           { key: "Access-Control-Allow-Methods", value: "GET,POST,OPTIONS" },
           { key: "Access-Control-Allow-Headers", value: "Content-Type, Authorization" },
         ],
@@ -14,24 +19,34 @@ const nextConfig = {
     ];
   },
 
-  // Proxy API requests (if using an external temp-email service)
+  // Modified rewrites to handle both local and production
   async rewrites() {
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:3000/api/:path*', // Local dev proxy
+        },
+      ];
+    }
     return [
       {
-        source: "/api/:path*", // Rewrites /api/* to your backend
-        destination: `https://api.mail.tm/:path*`, // Example: Mail.tm API
+        source: '/api/:path*',
+        destination: 'https://api.mail.tm/:path*', // Production API
       },
     ];
   },
 
-  // Environment variables (optional, but recommended)
-  env: {
-    MAIL_API_KEY: process.env.MAIL_API_KEY, // Pass env vars to the frontend
-  },
+  // Enhanced security for production
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false, // Disable source maps in prod
+  compress: true,
 
-  // Other optimizations
-  reactStrictMode: true,
-  swcMinify: true,
+  // Environment variables
+  env: {
+    MAIL_API_KEY: process.env.MAIL_API_KEY,
+    NODE_ENV: process.env.NODE_ENV,
+  },
 };
 
 export default nextConfig;
