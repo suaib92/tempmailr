@@ -1,4 +1,4 @@
-// next.config.js - Update to this:
+// next.config.js
 module.exports = {
   async headers() {
     return [
@@ -7,13 +7,22 @@ module.exports = {
         headers: [
           { 
             key: 'Access-Control-Allow-Origin', 
-            value: '*' // Allow all origins in production too
+            value: 'https://www.temp-mailr.com' 
           },
-          { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
-          { key: 'Access-Control-Allow-Credentials', value: 'true' }
+          { 
+            key: 'Access-Control-Allow-Methods', 
+            value: 'GET,POST,OPTIONS' 
+          },
+          { 
+            key: 'Access-Control-Allow-Headers', 
+            value: 'Content-Type, Authorization' 
+          }
         ],
       },
     ];
-  }
-}
+  },
+  // Add this if you're using Vercel
+  experimental: {
+    serverActions: true,
+  },
+};
