@@ -717,7 +717,7 @@ const fetchMessages = useCallback(async () => {
               ))}
             </div>
 
-          /
+   
           </div>
         </section>
       </div>
