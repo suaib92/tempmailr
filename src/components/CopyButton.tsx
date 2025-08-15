@@ -9,7 +9,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export default function CopyButton({ text }: { text: string }) {
+export default function MyCopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
