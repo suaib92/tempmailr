@@ -43,10 +43,6 @@ const nextConfig = {
   compress: true,
 
   // Environment variables
-  env: {
-    MAIL_API_KEY: process.env.MAIL_API_KEY,
-    NODE_ENV: process.env.NODE_ENV,
-  },
 };
 
 export default nextConfig;
