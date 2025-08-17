@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const res = await fetch("https://api.mail.tm/domains", {
+    const res = await fetch("https://mail.vlkn.in/domains", {
       cache: "no-store",
       headers: { 'User-Agent': 'TempMailr/1.0 (+https://www.temp-mailr.com)' }
     });
