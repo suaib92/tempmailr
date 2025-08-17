@@ -1,5 +1,5 @@
 // src/lib/mailtm.ts
-const API_URL = "mail.vlkn.in";
+const API_URL = "https://mail.vlkn.in";
 
 // Rate limiting control
 let lastRequestTime = 0;

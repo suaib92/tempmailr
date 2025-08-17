@@ -3,7 +3,7 @@
 import { createAccount, login } from "@/lib/mailtm";
 
 export async function createTempMail() {
-  const domains = await fetch("https://api.mail.tm/domains").then(res => res.json());
+  const domains = await fetch("mail.vlkn.in/domains").then(res => res.json());
   const domain = domains["hydra:member"][0].domain;
   
   const address = `temp-${Date.now()}@${domain}`;
