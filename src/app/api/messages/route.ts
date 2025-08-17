@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Missing token" }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const apiUrl = new URL("https://api.mail.tm/messages");
+  const apiUrl = new URL("https://mail.vlkn.in/messages");
   for (const k of ["page", "limit"]) {
     const v = searchParams.get(k);
     if (v) apiUrl.searchParams.set(k, v);

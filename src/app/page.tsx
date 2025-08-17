@@ -106,30 +106,36 @@ const fetchMessages = useCallback(async () => {
   }
 }, [token]);
 
-  const openMessage = async (id: string) => {
-    try {
-      const res = await fetch(
-        `/api/message?token=${encodeURIComponent(
-          token
-        )}&id=${encodeURIComponent(id)}`,
-        { cache: "no-store" }
-      );
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        console.error("Fetch message failed:", err);
-        return;
-      }
-      const data = (await res.json()) as Msg;
-      setSelected(data);
+ const openMessage = async (id: string) => {
+  try {
+    const res = await fetch(
+      `/api/message?token=${encodeURIComponent(token)}&id=${encodeURIComponent(id)}`,
+      { cache: "no-store" }
+    );
 
-      // Mark as read
-      setMessages((prev) =>
-        prev.map((m) => (m.id === id ? { ...m, seen: true } : m))
-      );
-    } catch (e) {
-      console.error(e);
+    if (!res.ok) {
+      let errText;
+      try {
+        errText = await res.text();
+      } catch {
+        errText = "No response body";
+      }
+      console.error("❌ Fetch message failed:", res.status, errText);
+      return;
     }
-  };
+
+    const data = (await res.json()) as Msg;
+    setSelected(data);
+
+    // Mark as read
+    setMessages((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, seen: true } : m))
+    );
+  } catch (e) {
+    console.error("⚠️ Network/Runtime error:", e);
+  }
+};
+
 
   useEffect(() => {
     if (!token) return;
