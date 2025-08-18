@@ -1,27 +1,21 @@
 // next.config.js
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   async headers() {
     return [
       {
         source: '/api/:path*',
         headers: [
-          { 
-            key: 'Access-Control-Allow-Origin', 
-            value: '*' // Changed to allow all origins
-          },
-          { 
-            key: 'Access-Control-Allow-Methods', 
-            value: 'GET,POST,OPTIONS' 
-          },
-          { 
-            key: 'Access-Control-Allow-Headers', 
-            value: 'Content-Type, Authorization' 
-          }
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,POST,OPTIONS' },
+          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
         ],
       },
     ];
   },
   experimental: {
-    serverActions: true,
+    serverActions: {}, // ✅ must be an object, not boolean
   },
 };
+
+module.exports = nextConfig;
