@@ -10,7 +10,7 @@ export default async function BlogPage() {
     <>
       <SanityLive /> {/* Required for live updates */}
 
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto mt-4 p-6">
         <h1 className="text-4xl font-bold mb-8">Blog</h1>
 
         <div className="flex flex-col md:flex-row gap-8">
