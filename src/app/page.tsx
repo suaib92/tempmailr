@@ -60,6 +60,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
+   const [activeTab, setActiveTab] = useState('what-is');
 
   const generateEmail = async () => {
     try {
@@ -726,6 +727,216 @@ const fetchMessages = useCallback(async () => {
 
    
           </div>
+
+          <div>
+         
+
+ 
+    <div className="max-w-4xl mx-auto px-4 py-8 font-sans text-gray-800 bg-white">
+      <header className="text-center mb-8 pb-6 border-b border-gray-200">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Temp Mail: The Ultimate Guide to Disposable Email Addresses & Privacy
+        </h1>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          Discover the power of <strong className="font-semibold">temp mail</strong> services. Our guide explains how to use disposable email addresses to eliminate spam, prevent data breaches, and protect your online identity.
+        </p>
+      </header>
+
+      <nav className="flex flex-wrap justify-center mb-8 gap-2">
+        {['what-is', 'why-need', 'how-choose', 'providers'].map((tab) => (
+          <button
+            key={tab}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === tab
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab === 'what-is' && 'What is Temp Mail?'}
+            {tab === 'why-need' && 'Why You Need It'}
+            {tab === 'how-choose' && 'How to Choose'}
+            {tab === 'providers' && 'Top Providers'}
+          </button>
+        ))}
+      </nav>
+
+      <main className="mb-12">
+        {activeTab === 'what-is' && (
+          <section className="bg-gray-50 p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">What is a Disposable Email Address (Temp Mail)?</h2>
+            <p className="mb-4">
+              A Disposable Email Address (DEA), commonly known as <strong className="font-semibold">temp mail</strong>, is a temporary, forward-facing alias designed for short-term, anonymous use. It is a fully functional email inbox that is not linked to your real identity. The core technology involves generating a unique, random email address that passes standard validation checks, allowing you to sign up for services without revealing your personal or business email.
+            </p>
+            <div className="bg-gradient-to-r from-blue-100 to-purple-100 h-64 rounded-lg flex items-center justify-center mb-4">
+              <div className="text-center p-4">
+                <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="font-medium">How Temp Mail Protects Your Identity</p>
+              </div>
+            </div>
+            <p>
+              The power of a <strong className="font-semibold">temp mail</strong> service lies in its disposability. If the alias is spammed, phished, or caught in a data breach, you simply discard it. This action neutralizes the threat instantly, leaving your primary digital identity completely untouched and secure.
+            </p>
+          </section>
+        )}
+
+        {activeTab === 'why-need' && (
+          <section className="bg-gray-50 p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Why You Absolutely Need a Temp Mail Address</h2>
+            <p className="mb-4">The legitimate applications for <strong className="font-semibold">temp mail</strong> extend far beyond avoiding newsletters. They are a fundamental tool for privacy-conscious individuals and professionals.</p>
+            
+            <ul className="grid md:grid-cols-2 gap-4 mb-6">
+              <li className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold text-blue-600 mb-2">Eradicate Spam and Promotional Bloat</h3>
+                <p>Use a <strong>temp mail</strong> for store loyalty cards, contest entries, and downloading gated content.</p>
+              </li>
+              <li className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold text-blue-600 mb-2">Neutralize Data Breach Damage</h3>
+                <p>By using a unique <strong>temp mail</strong> for every service, you compartmentalize risk.</p>
+              </li>
+              <li className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold text-blue-600 mb-2">Streamline Development and QA Testing</h3>
+                <p>Developers can use <strong>temp mail generator</strong> services to create countless dummy accounts.</p>
+              </li>
+              <li className="bg-white p-4 rounded-lg shadow-sm">
+                <h3 className="font-semibold text-blue-600 mb-2">Manage Multiple Accounts Efficiently</h3>
+                <p>Create clear separations between your online personas.</p>
+              </li>
+            </ul>
+            
+            <div className="bg-gradient-to-r from-red-100 to-orange-100 h-64 rounded-lg flex items-center justify-center mb-4">
+              <div className="text-center p-4">
+                <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="font-medium">Video: A quick 2-minute explainer on how temp mail works to protect your privacy.</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'how-choose' && (
+          <section className="bg-gray-50 p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Choose the Best Temp Mail Service</h2>
+            <p className="mb-6">With many options available, selecting the right service is key. The <strong className="font-semibold">best temp mail</strong> providers offer a blend of convenience, features, and security.</p>
+            
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-white p-5 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Instant Generation</h3>
+                <p className="text-gray-600">Create a new address with a single click, no registration required.</p>
+              </div>
+              <div className="bg-white p-5 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Absolute Anonymity</h3>
+                <p className="text-gray-600">A strict no-logging policy that collects zero personal data.</p>
+              </div>
+              <div className="bg-white p-5 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Customization</h3>
+                <p className="text-gray-600">The ability to get a random address or choose a custom <strong>temp mail id</strong>.</p>
+              </div>
+              <div className="bg-white p-5 rounded-lg shadow-sm">
+                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Functional Web Inbox</h3>
+                <p className="text-gray-600">Access to received emails directly on the service's page.</p>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-green-100 to-teal-100 h-64 rounded-lg flex items-center justify-center mb-4">
+              <div className="text-center p-4">
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <p className="font-medium">Feature comparison of the best temp mail providers</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'providers' && (
+          <section className="bg-gray-50 p-6 rounded-xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Temp Mail Providers to Consider</h2>
+            
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="font-bold text-xl text-blue-700 mb-3">Temp-Mail.org</h3>
+                <p className="text-gray-600">A highly popular and reliable option with a simple interface and the ability to choose your own address.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="font-bold text-xl text-blue-700 mb-3">Temp Mail IO</h3>
+                <p className="text-gray-600">Known for its clean design and user-friendly experience.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="font-bold text-xl text-blue-700 mb-3">10MinuteMail</h3>
+                <p className="text-gray-600">The classic service that provides an inbox that lasts for 10 minutes, perfect for quick verifications.</p>
+              </div>
+            </div>
+            
+            <div className="bg-blue-50 p-6 rounded-lg mb-6">
+              <h3 className="text-xl font-semibold text-blue-900 mb-4">Advanced Temp Mail Use Cases</h3>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Temp Mail with Password:</strong> Some services allow you to set a password for your temporary inbox.</li>
+                <li><strong>Temp Mail Plus Extensions:</strong> Browser extensions like Adguard Temp Mail streamline the process.</li>
+                <li><strong>Temp Mail for Specific Platforms:</strong> Need a temp mail for Facebook or other social media?</li>
+              </ul>
+            </div>
+            
+            <div className="bg-gradient-to-r from-purple-100 to-pink-100 h-64 rounded-lg flex items-center justify-center">
+              <div className="text-center p-4">
+                <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="font-medium">Using a temp mail mod apk or mobile app for disposable emails on the go</p>
+              </div>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer className="bg-gradient-to-r from-gray-50 to-blue-50 p-8 rounded-xl border border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusion: Embrace Temp Mail for a Cleaner Digital Life</h2>
+        <p className="mb-4">
+          Integrating <strong className="font-semibold">temp mail</strong> into your online routine is one of the simplest yet most effective steps you can take toward reclaiming your digital privacy. It serves as a dynamic filter, allowing you to engage with the digital world on your own terms.
+        </p>
+        <p>
+          By strategically deploying disposable addresses from a trusted <strong className="font-semibold">temp mail generator</strong>, you build a resilient defense system for your primary email identity. You ensure it remains confidential, secure, and exclusive for the connections that truly matter.
+        </p>
+      </footer>
+    </div>
+ 
+
+
+          </div>
+
         </section>
       </div>
     </main>
