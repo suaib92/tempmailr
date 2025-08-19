@@ -4,8 +4,9 @@ import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
-// Define types
+// ---------- Types ----------
 interface ImageValue {
   _type: "image";
   asset: {
@@ -31,8 +32,31 @@ interface PortableTextLinkProps {
   text?: string;
 }
 
-// ✅ Generate SEO Metadata
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+interface BlogPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+// ---------- Generate static params ----------
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const { data: posts } = await sanityFetch({
+    query: `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
+  });
+
+  return (posts || []).map((post: { slug: string }) => ({
+    slug: post.slug,
+  }));
+}
+
+// ---------- Generate Metadata ----------
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const { data: post } = await sanityFetch({
     query: `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -44,13 +68,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (!post) return {};
 
-  const ogImage = post.mainImage
-    ? urlFor(post.mainImage).width(1200).height(630).url()
-    : "/default-og.png"; // fallback OG image
+  let ogImage = "/default-og.png";
+  if (post.mainImage?.asset) {
+    ogImage = urlFor(post.mainImage).width(1200).height(630).url();
+  }
 
   return {
     title: post.title || "Temp Mail Blog",
-    description: post.excerpt || "Discover Temp Mail for anonymous, secure, and spam-free emailing.",
+    description: post.excerpt,
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -65,8 +90,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-// ✅ Blog Post Page
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+// ---------- Blog Post Page ----------
+export default async function BlogPostPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const { data: post } = await sanityFetch({
     query: `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -151,9 +180,17 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </header>
 
         {/* Cover Image */}
-        {post.mainImage && (
+        {post.mainImage && post.mainImage.asset && (
           <figure className="mb-12">
-            
+            <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-md">
+              <Image
+                src={urlFor(post.mainImage).width(1200).quality(85).url()}
+                alt={post.mainImage.alt || "Blog cover image"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+              />
+            </div>
             {post.mainImage.alt && (
               <figcaption className="mt-2 text-center text-sm text-gray-500">
                 {post.mainImage.alt}
@@ -178,32 +215,38 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             value={post.body}
             components={{
               types: {
-                image: ({ value }: PortableTextImageProps) => (
-                  <figure>
-                    <div className="relative w-full h-96 rounded-xl overflow-hidden my-8 shadow-md">
-                      <Image
-                        src={urlFor(value).width(1200).quality(85).url()}
-                        alt={value.alt || "Blog image"}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                      />
-                    </div>
-                    {value.alt && (
-                      <figcaption className="text-center text-sm text-gray-500 mt-2">
-                        {value.alt}
-                      </figcaption>
-                    )}
-                  </figure>
-                ),
+                image: ({ value }: PortableTextImageProps) => {
+                  if (!value || !value.asset) return null;
+
+                  try {
+                    const imageUrl = urlFor(value).width(1200).quality(85).url();
+                    return (
+                      <figure>
+                        <div className="relative w-full h-96 rounded-xl overflow-hidden my-8 shadow-md">
+                          <Image
+                            src={imageUrl}
+                            alt={value.alt || "Blog image"}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                          />
+                        </div>
+                        {value.alt && (
+                          <figcaption className="text-center text-sm text-gray-500 mt-2">
+                            {value.alt}
+                          </figcaption>
+                        )}
+                      </figure>
+                    );
+                  } catch (error) {
+                    console.error("Error generating image URL:", error);
+                    return null;
+                  }
+                },
               },
               marks: {
-                link: (props: PortableTextLinkProps) => {
-                  const { value, children } = props;
-
-                  if (!value?.href) {
-                    return <span>{children}</span>;
-                  }
+                link: ({ value, children }: PortableTextLinkProps) => {
+                  if (!value?.href) return <span>{children}</span>;
 
                   const isExternal = value.href.startsWith("http");
 
@@ -234,11 +277,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-gray-100">
           <div className="flex justify-between items-center">
-            <div>
-              {post.authorName && (
-                <p className="text-sm text-gray-500">Written by {post.authorName}</p>
-              )}
-            </div>
+            {post.authorName && (
+              <p className="text-sm text-gray-500">Written by {post.authorName}</p>
+            )}
           </div>
         </footer>
       </main>
