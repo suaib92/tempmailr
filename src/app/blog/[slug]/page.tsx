@@ -39,7 +39,7 @@ interface BlogPageProps {
 }
 
 // ---------- Generate static params ----------
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+export async function generateStaticParams(): Promise<BlogPageProps["params"][]> {
   const { data: posts } = await sanityFetch({
     query: `*[_type == "post" && defined(slug.current)]{ "slug": slug.current }`,
   });
@@ -50,13 +50,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 }
 
 // ---------- Generate Metadata ----------
-
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
   const { data: post } = await sanityFetch({
     query: `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -91,11 +85,7 @@ export async function generateMetadata({
 }
 
 // ---------- Blog Post Page ----------
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function BlogPostPage({ params }: BlogPageProps) {
   const { data: post } = await sanityFetch({
     query: `*[_type == "post" && slug.current == $slug][0]{
       title,
