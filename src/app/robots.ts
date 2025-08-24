@@ -1,23 +1,22 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://temp-mailr.com"; // no trailing slash
+const SITE_URL = "https://temp-mailr.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        allow: "/", // Allow all main pages
         disallow: [
-          "/admin",      // block admin or private areas
-          "/api",        // block API routes from indexing
-          "/_next",      // prevent indexing Next.js build files
-          "/static",     // prevent static build files from being indexed
-          "/temp",       // block any test/temp folders
+          "/admin",   // Block admin/private pages
+          "/api",     // Block API routes
+          "/_next",   // Block Next.js internal build files
+          "/temp",    // Block test/temp folders
         ],
       },
       {
-        userAgent: "Googlebot-Image", // let Google index your images
+        userAgent: "Googlebot-Image", // Let Google index images
         allow: "/",
       },
     ],
